@@ -29,8 +29,8 @@ public class Usuario {
 	@Column(name = "Email")
 	private String email;
 	
-	@Column(name = "Clave")
-	private String clave;
+	@Column(name = "PasswordHash")
+	private String password;
 	
 	@ManyToOne
 	@JoinColumn(name= "RolId")
@@ -40,11 +40,11 @@ public class Usuario {
 	
 	}
 
-	public Usuario(String nombreUsuario, String email, String clave, Rol rol) {
+	public Usuario(String nombreUsuario, String email, String password, Rol rol) {
 		
 		this.nombreUsuario = nombreUsuario;
 		this.email = email;
-		this.clave = clave;
+		this.password = password;
 		this.rol = rol;
 	}
 	

@@ -1,6 +1,7 @@
 package com.bembox.ServiceImpl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,44 +17,31 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	
-	@Override
-	public Usuario guardarUsuario(Usuario usuario) {
-	    // Encriptar la contraseña antes de guardar
-		String claveEncriptada = passwordEncoder.encode(usuario.getClave());
-		usuario.setClave(claveEncriptada);
-	    return usuarioRepository.save(usuario);
-	}
 
 	@Override
-	public Usuario ActualizarUsuario(Usuario usuario) {
-		// TODO Auto-generated method stub
-		return null;
+	public Usuario guardarUsuario(Usuario usuario) {
+		// Encriptar la clave antes de guardar
+        String claveEncriptada = passwordEncoder.encode(usuario.getPassword());
+        usuario.setPassword(claveEncriptada);
+        return usuarioRepository.save(usuario);
 	}
 
 	@Override
 	public List<Usuario> listarTodosUsuario() {
-		// TODO Auto-generated method stub
-		return null;
+		return usuarioRepository.findAll();
 	}
 
 	@Override
-	public boolean login(Usuario usuario) {
-		// TODO Auto-generated method stub
-		return false;
+	public Optional<Usuario> findByNombreUsuario(String username) {
+		return usuarioRepository.findByNombreUsuario(username);
 	}
 
 	@Override
-	public Usuario buscarByUsuario(String username) {
-		// TODO Auto-generated method stub
-		return null;
+	public Long contarUsuariosPorRol(String tipoRol) {
+		return usuarioRepository.countByRol_Tipo(tipoRol);
 	}
 
-	@Override
-	public Long ContarTipoRolUsuario(Long usuario) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 	
 	
 
