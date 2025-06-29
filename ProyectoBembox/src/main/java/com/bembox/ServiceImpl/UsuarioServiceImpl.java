@@ -5,11 +5,14 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import com.bembox.entity.Usuario;
 import com.bembox.repository.UsuarioRepository;
 import com.bembox.service.UsuarioService;
 
+
+@Service
 public class UsuarioServiceImpl implements UsuarioService{
 	
 	@Autowired

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Inicio Cliente</title>
+</head>
+<body>
+    <header>
+        <h1>Bienvenido, <span th:text="${nombreCliente}">Cliente</span></h1>
+
+        <form th:action="@{/logout}" method="post">
+            <button type="submit">Cerrar sesión</button>
+        </form>
+    </header>
+
+    <main>
+        <p>Contenido del cliente aquí...</p>
+    </main>
+</body>
+</html>

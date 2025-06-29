@@ -1,4 +1,4 @@
-package com.bembox.Controller;
+package com.bembox.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +8,6 @@ public class LoginController {
 
     @GetMapping("/login")
     public String mostrarLogin() {
-        return "login"; // Carga templates/login.html
+        return "login/login"; 
     }
 }

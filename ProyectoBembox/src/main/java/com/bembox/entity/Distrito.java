@@ -12,29 +12,34 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "roles")
-public class Rol {
+@Table(name = "distritos")
+public class Distrito {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rol_id")
+    @Column(name = "distrito_id")
     private Long id;
 
-    @Column(name = "tipo")
-    private String tipo;
+    @Column(name = "nombre")
+    private String nombre;
 
-	
-	public Rol(String tipo) {
-		this.tipo = tipo;
+	public Distrito(String nombre) {
+		this.nombre = nombre;
 	}
 
-	public Rol() {
+	public Distrito() {
 	}
 
-	public Rol(Long id, String tipo) {
+	public Distrito(Long id, String nombre) {
 		this.id = id;
-		this.tipo = tipo;
+		this.nombre = nombre;
 	}
 	
+	
+	
+	
+    
+    
+    
 
 }

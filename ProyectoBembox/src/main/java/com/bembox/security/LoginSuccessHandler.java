@@ -21,9 +21,9 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler{
 		
 		Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
 
-        if (roles.contains("ADMIN")) {
+        if (roles.contains("Administrador")) {
             response.sendRedirect("/admin/dashboard");
-        } else if (roles.contains("CLIENTE")) {
+        } else if (roles.contains("Cliente")) {
             response.sendRedirect("/cliente/home");
         } else {
             response.sendRedirect("/login?error=sin-permiso");
