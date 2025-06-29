@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bembox - Inicio</title>
+    <link rel="stylesheet" href="/css/estilos.css">
+</head>
+<body>
+
+    <!-- ENCABEZADO -->
+    <header>
+        <h1>Bembox </h1>
+        <nav>
+            <a th:href="@{/}">Productos</a>
+            <a th:href="@{/promociones}">Promociones</a>
+            <a th:href="@{/seguimiento}">Sigue tu pedido</a>
+
+            <!-- Si NO está logueado -->
+            <a th:if="${!#authorization.expression('isAuthenticated()')}" th:href="@{/login}">Iniciar sesión</a>
+
+            <!-- Si está logueado -->
+            <span th:if="${#authorization.expression('isAuthenticated()')}">
+                Bienvenido, <b th:text="${#authentication.name}">Usuario</b>
+            </span>
+            <a th:if="${#authorization.expression('isAuthenticated()')}" th:href="@{/logout}">Cerrar sesión</a>
+        </nav>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main>
+        <h2>Productos destacados</h2>
+        <div th:each="producto : ${productos}" style="border: 1px solid #ccc; padding: 10px; margin: 10px; width: 200px; display: inline-block;">
+            <img th:src="@{${producto.imagenUrl}}" alt="Imagen" width="150">
+            <p><strong th:text="${producto.nombre}">Nombre producto</strong></p>
+            <p th:text="'S/ ' + ${producto.precio}">Precio</p>
+            <button>Agregar al carrito</button>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer style="margin-top: 30px; border-top: 1px solid #ccc; padding: 10px;">
+        <p>&copy; 2025 Bembox</p>
+        <a th:href="@{/nosotros}">Acerca de nosotros</a>
+    </footer>
+
+</body>
+</html>

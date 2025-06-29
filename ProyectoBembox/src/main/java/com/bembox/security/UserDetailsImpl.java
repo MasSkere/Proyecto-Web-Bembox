@@ -53,4 +53,8 @@ public class UserDetailsImpl implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+    
+    public Usuario getUsuario() {
+        return usuario; // por si necesitas obtener el usuario en el controlador
+    }
 }

@@ -26,6 +26,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                                 .requestMatchers("/login", "/css/**", "/js/**", "/img/**").permitAll()
+                                .requestMatchers("/admin/**").hasAuthority("Administrador")
+                        	    .requestMatchers("/cliente/**").hasAuthority("Cliente")
                                 .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -37,6 +39,9 @@ public class SecurityConfig {
                                 .logoutSuccessUrl("/login?logout")
                                 .permitAll()
                 )
+                .exceptionHandling(ex -> ex
+                	    .accessDeniedPage("/error/403")
+                	)
                 .userDetailsService(userDetailsService)
                 .build(); 
     }

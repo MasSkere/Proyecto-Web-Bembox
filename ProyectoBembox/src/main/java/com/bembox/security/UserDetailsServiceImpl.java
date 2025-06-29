@@ -12,15 +12,16 @@ import com.bembox.service.UsuarioService;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    private UsuarioService usuarioService;
+	 @Autowired
+	    private UsuarioService usuarioService;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Usuario> usuarioOptional = usuarioService.findByNombreUsuario(username);
-        if (!usuarioOptional.isPresent()) {
-            throw new UsernameNotFoundException("Usuario no encontrado");
-        }
-        return new UserDetailsImpl(usuarioOptional.get());
-    }
+	    @Override
+	    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	        Optional<Usuario> usuarioOptional = usuarioService.findByNombreUsuario(username);
+	        if (!usuarioOptional.isPresent()) {
+	            throw new UsernameNotFoundException("Usuario no encontrado");
+	        }
+	        return new UserDetailsImpl(usuarioOptional.get());
+	    }
 }
+
