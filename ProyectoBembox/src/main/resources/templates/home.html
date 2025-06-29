@@ -1,47 +1,79 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bembox - Inicio</title>
-    <link rel="stylesheet" href="/css/estilos.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/lucide.min.js"></script>
 </head>
-<body>
-
-    <!-- ENCABEZADO -->
-    <header>
-        <h1>Bembox </h1>
-        <nav>
-            <a th:href="@{/}">Productos</a>
-            <a th:href="@{/promociones}">Promociones</a>
-            <a th:href="@{/seguimiento}">Sigue tu pedido</a>
-
-            <!-- Si NO está logueado -->
-            <a th:if="${!#authorization.expression('isAuthenticated()')}" th:href="@{/login}">Iniciar sesión</a>
-
-            <!-- Si está logueado -->
-            <span th:if="${#authorization.expression('isAuthenticated()')}">
-                Bienvenido, <b th:text="${#authentication.name}">Usuario</b>
-            </span>
-            <a th:if="${#authorization.expression('isAuthenticated()')}" th:href="@{/logout}">Cerrar sesión</a>
-        </nav>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+    <!-- HEADER -->
+    <header class="bg-blue-800 text-white sticky top-0 z-50 shadow">
+        <div class="container mx-auto flex flex-wrap items-center justify-between p-4">
+            <h1 class="text-2xl font-bold">Bembox</h1>
+            <nav class="w-full md:w-auto">
+                <ul class="flex flex-col md:flex-row md:space-x-6 text-lg">
+                    <li><a th:href="@{/}" class="block py-2 md:py-0 hover:text-yellow-300">Productos</a></li>
+                    <li><a th:href="@{/promociones}" class="block py-2 md:py-0 hover:text-yellow-300">Promociones</a></li>
+                    <li><a th:href="@{/seguimiento}" class="block py-2 md:py-0 hover:text-yellow-300">Sigue tu pedido</a></li>
+                    <li sec:authorize="!isAuthenticated()">
+                        <a th:href="@{/login}" class="block py-2 md:py-0 hover:text-yellow-300">Iniciar sesión</a>
+                    </li>
+                    <li sec:authorize="isAuthenticated()" class="block py-2 md:py-0">
+                        Bienvenido, <b th:text="${#authentication.name}">Usuario</b>
+                    </li>
+                    <li sec:authorize="isAuthenticated()">
+                        <a th:href="@{/logout}" class="block py-2 md:py-0 hover:text-yellow-300">Cerrar sesión</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
-    <!-- CONTENIDO PRINCIPAL -->
-    <main>
-        <h2>Productos destacados</h2>
-        <div th:each="producto : ${productos}" style="border: 1px solid #ccc; padding: 10px; margin: 10px; width: 200px; display: inline-block;">
-            <img th:src="@{${producto.imagenUrl}}" alt="Imagen" width="150">
-            <p><strong th:text="${producto.nombre}">Nombre producto</strong></p>
-            <p th:text="'S/ ' + ${producto.precio}">Precio</p>
-            <button>Agregar al carrito</button>
+    <!-- MAIN CONTENT -->
+    <main class="container mx-auto flex-grow p-4">
+        <h2 class="text-3xl font-semibold text-gray-800 mb-6">Productos Destacados</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div th:each="producto : ${productos}" 
+                 class="bg-white border border-gray-200 rounded-lg p-4 text-center transform transition duration-300 ease-in-out hover:shadow-[0_0_15px_rgba(0,115,230,0.8)] hover:scale-105">
+                <img th:src="${producto.imagenUrl}" th:alt="'Imagen de ' + ${producto.nombre}" class="mx-auto mb-4 w-40 h-40 object-cover rounded"> 
+                     class="mx-auto mb-4 w-40 h-40 object-cover rounded">
+                <p class="font-bold text-lg mb-1" th:text="${producto.nombre}">Nombre Producto</p>
+                <p class="text-gray-700 mb-3" th:text="'S/ ' + ${producto.precio}">Precio</p>
+                <div class="flex justify-center space-x-4">
+                    <!-- Carrito -->
+                    <button class="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700" title="Agregar al carrito">
+                        <span data-lucide="shopping-cart"></span>
+                    </button>
+                    <!-- Favoritos -->
+                    <button class="p-2 bg-pink-500 text-white rounded-full hover:bg-pink-600" title="Agregar a favoritos">
+                        <span data-lucide="heart"></span>
+                    </button>
+                </div>
+            </div>
         </div>
     </main>
 
+    <!-- WHATSAPP FLOATING BUTTON -->
+    <a href="https://wa.me/51999999999" target="_blank" 
+       class="fixed bottom-5 right-5 bg-green-500 rounded-full p-3 shadow-lg hover:bg-green-600">
+        <span data-lucide="message-circle" class="w-8 h-8 text-white"></span>
+    </a>
+
     <!-- FOOTER -->
-    <footer style="margin-top: 30px; border-top: 1px solid #ccc; padding: 10px;">
-        <p>&copy; 2025 Bembox</p>
-        <a th:href="@{/nosotros}">Acerca de nosotros</a>
+    <footer class="bg-gray-100 text-gray-700 mt-12">
+        <div class="container mx-auto p-6 flex flex-col md:flex-row items-center md:justify-between">
+            <p class="mb-4 md:mb-0">&copy; 2025 Bembox. Todos los derechos reservados.</p>
+            <div class="flex space-x-6">
+                <a th:href="@{/nosotros}" class="hover:text-blue-600">Acerca de nosotros</a>
+                <a href="#" class="hover:text-blue-600">Términos</a>
+                <a href="#" class="hover:text-blue-600">Privacidad</a>
+            </div>
+        </div>
     </footer>
 
+    <script>lucide.createIcons()</script>
 </body>
 </html>

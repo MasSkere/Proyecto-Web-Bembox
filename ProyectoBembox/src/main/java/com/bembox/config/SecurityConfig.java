@@ -25,7 +25,7 @@ public class SecurityConfig {
     	return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/login", "/css/**", "/js/**", "/img/**").permitAll()
+                                .requestMatchers("/", "/login", "/css/**", "/js/**", "/img/**").permitAll()
                                 .requestMatchers("/admin/**").hasAuthority("Administrador")
                         	    .requestMatchers("/cliente/**").hasAuthority("Cliente")
                                 .anyRequest().authenticated()
@@ -50,4 +50,7 @@ public class SecurityConfig {
      AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
+    
+   
+
 }
