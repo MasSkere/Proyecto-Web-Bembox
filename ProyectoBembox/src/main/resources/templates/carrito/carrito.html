@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tu Carrito</title>
+    <link rel="stylesheet" href="/css/estilos.css">
+</head>
+<body>
+
+<h2>Carrito de Compras</h2>
+
+<!-- ✅ Mostramos el carrito solo si tiene productos -->
+<div th:if="${carrito != null and !carrito.isEmpty()}">
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Imagen</th>
+                <th>Precio Unitario</th>
+                <th>Cantidad</th>
+                <th>Subtotal</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <!-- ✅ Iteramos sobre los productos del carrito -->
+            <tr th:each="item, iterStat : ${carrito}">
+                <td th:text="${item.producto.nombre}"></td>
+                <td><img th:src="@{${item.producto.imagenUrl}}" width="80"></td>
+                <td th:text="${item.producto.precio}" class="precio-unitario"></td>
+
+                <!-- ✅ Controles de cantidad con botones (+) y (−) -->
+                <td>
+                    <div class="product-quantity"
+                         th:attr="data-producto-id=${item.producto.id}, data-index=${iterStat.index}">
+                        <button class="decrement">−</button>
+                        <input type="text" class="cantidad" th:value="${item.cantidad}" readonly>
+                        <button class="increment">+</button>
+                    </div>
+                </td>
+
+                <!-- ✅ Subtotal individual por producto -->
+                <td>
+                    <span th:id="'subtotal-' + ${iterStat.index}" th:text="${item.subtotal}">0</span>
+                </td>
+
+                <!-- ✅ Botón para eliminar el producto -->
+                <td>
+                    <form th:action="@{/carrito/eliminar}" method="post">
+                        <input type="hidden" name="productoId" th:value="${item.producto.id}">
+                        <button type="submit">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- ✅ Subtotal general del carrito -->
+    <h3>Subtotal total: <span id="subtotal-general" th:text="${subtotal}">0</span> soles</h3>
+
+	<a th:href="@{/carrito/verificarLoginAntesDePedido}">
+	    <button>Continuar con el Pedido</button>
+	</a>>
+</div>
+
+<!-- ✅ Si el carrito está vacío mostramos un mensaje -->
+<div th:if="${carrito == null or carrito.isEmpty()}">
+    <p>Tu carrito está vacío.</p>
+    <a th:href="@{/}">Volver a la tienda</a>
+</div>
+
+<!-- ✅ Cargamos el script JavaScript desde la carpeta /js -->
+<script src="/js/carrito.js"></script>
+
+</body>
+</html>
+

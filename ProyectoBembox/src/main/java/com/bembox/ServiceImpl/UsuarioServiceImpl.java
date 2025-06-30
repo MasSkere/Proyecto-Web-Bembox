@@ -44,6 +44,12 @@ public class UsuarioServiceImpl implements UsuarioService{
 		return usuarioRepository.countByRol_Tipo(tipoRol);
 	}
 
+	@Override
+	public Usuario buscarPorNombreUsuario(String nombreUsuario) {
+		return usuarioRepository.findByNombreUsuario(nombreUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado: " + nombreUsuario));
+	}
+
 	
 	
 	

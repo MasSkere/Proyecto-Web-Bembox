@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pedido Realizado</title>
+</head>
+<body>
+
+<h2>¡Pedido realizado con éxito!</h2>
+
+<p>Gracias por tu compra, <span th:text="${pedido.cliente.nombres}">Nombre</span> <span th:text="${pedido.cliente.apellidos}">Apellido</span>.</p>
+
+<h3>Resumen del Pedido</h3>
+<p><strong>Dirección de envío:</strong> <span th:text="${pedido.direccionEnvio}"></span></p>
+<p><strong>Total pagado:</strong> <span th:text="${pedido.total} + ' soles'"></span></p>
+<p><strong>Estado del pedido:</strong> <span th:text="${pedido.estado.nombre}">Pendiente</span></p>
+
+<h4>Productos:</h4>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio Unitario</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="detalle : ${pedido.detalles}">
+            <td th:text="${detalle.producto.nombre}"></td>
+            <td th:text="${detalle.cantidad}"></td>
+            <td th:text="${detalle.precioUnitario}"></td>
+        </tr>
+    </tbody>
+</table>
+
+<!--  PDF de la boleta -->
+<form th:action="@{'/pedido/pdf/' + ${pedido.pedidoId}}" method="get">
+    <button type="submit">📄 Descargar boleta PDF</button>
+</form>
+
+
+<a th:href="@{/}">Volver al inicio</a>
+
+</body>
+</html>

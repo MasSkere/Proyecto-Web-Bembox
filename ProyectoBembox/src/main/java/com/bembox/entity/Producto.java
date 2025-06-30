@@ -1,5 +1,7 @@
 package com.bembox.entity;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,10 +31,15 @@ public class Producto {
 	private String descripcion;
 	
 	@Column(name="precio")
-	private Double precio;
+	private BigDecimal precio;
+	
+	
 	
 	@Column(name="stock")
 	private int stock;
+	
+	@Column(name = "recomendado")
+	private boolean recomendado;
 	
 	@ManyToOne
 	@JoinColumn(name = "categoria_id")
@@ -44,23 +51,29 @@ public class Producto {
 	public Producto() {
 	}
 
-	public Producto(String nombre, String descripcion, Double precio, int stock, Categoria categoria, String imagenUrl) {
+	public Producto(String nombre, String descripcion, BigDecimal precio, int stock, boolean recomendado,
+			Categoria categoria, String imagenUrl) {
+		super();
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.precio = precio;
 		this.stock = stock;
+		this.recomendado = recomendado;
 		this.categoria = categoria;
 		this.imagenUrl = imagenUrl;
 	}
 
-	public Producto(String nombre, String descripcion, Double precio, int stock, Categoria categoria) {
+	public Producto(String nombre, String descripcion, BigDecimal precio, int stock, boolean recomendado,
+			Categoria categoria) {
+		super();
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.precio = precio;
 		this.stock = stock;
+		this.recomendado = recomendado;
 		this.categoria = categoria;
 	}
-	
+
 	
 	
 

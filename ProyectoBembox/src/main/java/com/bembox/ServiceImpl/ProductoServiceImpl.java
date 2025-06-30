@@ -40,8 +40,13 @@ public class ProductoServiceImpl implements ProductoService{
 
 	@Override
 	public Producto buscarProductoById(Long id) {
-		// TODO Auto-generated method stub
-		return productoRepository.findById(id).orElse(null);
+	    return productoRepository.findById(id)
+	        .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+	}
+	
+	@Override
+	public List<Producto> listarProductosRecomendados() {
+	    return productoRepository.findByRecomendadoTrue();
 	}
 
 }

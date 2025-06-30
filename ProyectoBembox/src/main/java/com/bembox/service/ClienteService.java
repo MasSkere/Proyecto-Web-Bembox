@@ -16,6 +16,10 @@ public interface ClienteService {
 	 Cliente buscarClienteById(Long id);
 	 
 	 Cliente buscarPorUsername(Usuario username);
+	 
+	 Cliente obtenerPorUsuarioId(Long id);
+
    
+	 
 
 }

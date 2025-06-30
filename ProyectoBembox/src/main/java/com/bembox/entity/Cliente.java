@@ -42,8 +42,15 @@ public class Cliente {
     @ManyToOne
     @JoinColumn(name = "distrito_id")
     private Distrito distrito;
-    
-   
 
+	public Cliente() {
+	}
+
+	public Cliente(String nombres, String apellidos, String telefono) {
+		this.nombres = nombres;
+		this.apellidos = apellidos;
+		this.telefono = telefono;
+	}
     
+
 }

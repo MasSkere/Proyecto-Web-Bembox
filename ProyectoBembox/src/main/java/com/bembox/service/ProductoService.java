@@ -13,5 +13,9 @@ public interface ProductoService {
 	 boolean eliminarProductoById(Long id);
 	
 	 Producto buscarProductoById(Long id);
+	 
+	 List<Producto> listarProductosRecomendados();
+	 
+	 
 
 }

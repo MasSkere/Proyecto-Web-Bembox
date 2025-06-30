@@ -17,7 +17,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String mostrarHome(Model model) {
-    	 model.addAttribute("productos", productoService.listarTodosProducto());
+    	 model.addAttribute("productosRecomendados", productoService.listarProductosRecomendados());
     	    return "home";
     }
     

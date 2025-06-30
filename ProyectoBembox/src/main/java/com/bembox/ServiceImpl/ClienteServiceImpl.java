@@ -50,6 +50,12 @@ public class ClienteServiceImpl implements ClienteService{
 		// TODO Auto-generated method stub
 		return clienteRepository.findByUsuario(username);
 	}
+	
+	@Override
+	public Cliente obtenerPorUsuarioId(Long id) {
+	    return clienteRepository.findByUsuario_Id(id)
+	        .orElseThrow(() -> new RuntimeException("Cliente no encontrado para el usuario"));
+	}
 
 	
 	
