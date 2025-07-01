@@ -29,6 +29,4 @@ public class DetallePedido {
     @Column(name="precio_unitario")
     private BigDecimal precioUnitario;
     
-    
-    
 }

@@ -27,8 +27,7 @@ public class PedidoServiceImpl implements PedidoService {
 	
 	@Override
 	public Pedido obtenerPorId(Long id) {
-	    return pedidoRepository.findById(id)
-	            .orElseThrow(() -> new RuntimeException("Pedido no encontrado con id: " + id));
+	    return pedidoRepository.findById(id).get();
 	}
 
 	@Override

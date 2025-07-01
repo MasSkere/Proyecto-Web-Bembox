@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Boleta de Compra</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body class="container mt-5">
+
+    <div class="card shadow p-4">
+        <h2 class="mb-4 text-center">Boleta de Compra</h2>
+
+        <div class="mb-3">
+            <strong>Número de Boleta:</strong> <span th:text="${boleta.numeroSerie}"></span><br>
+            <strong>Fecha de Emisión:</strong> <span th:text="${boleta.fecha_emision}"></span><br>
+            <strong>Cliente:</strong> <span th:text="${pedido.cliente.nombres + ' ' + pedido.cliente.apellidos}"></span><br>
+            <strong>Dirección de Envío:</strong> <span th:text="${pedido.direccionEnvio}"></span>
+        </div>
+
+        <table class="table table-bordered mt-4">
+            <thead class="table-light">
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="detalle : ${boleta.detalles}">
+                    <td th:text="${detalle.producto.nombre}"></td>
+                    <td th:text="${detalle.cantidad}"></td>
+					<td th:text="${detalle.precioUnitario}"></td>					
+					<td th:text="${detalle.subtotal}"></td>
+
+                </tr>
+				
+				
+            </tbody>
+        </table>
+
+        <div class="text-end">
+            <h4>Total: S/ <span th:text="${boleta.montoTotal}"></span></h4>
+        </div>
+
+        <div class="text-center mt-4">
+            <a th:href="@{'/pedido/pdf/' + ${boleta.id}}" class="btn btn-outline-primary" target="_blank">
+                Descargar comprobante PDF
+            </a>
+            <a th:href="@{/}" class="btn btn-secondary ms-2">Volver al inicio</a>
+        </div>
+    </div>
+
+</body>
+</html>
+
