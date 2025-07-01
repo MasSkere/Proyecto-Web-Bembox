@@ -1,6 +1,7 @@
 package com.bembox.service;
 
 import com.bembox.entity.Producto;
+<<<<<<< HEAD
 import java.util.List;
 
 /**
@@ -41,3 +42,24 @@ public interface ProductoService {
      */
     List<Producto> searchProductos(String nombre);
 }
+=======
+
+import java.util.List;
+
+public interface ProductoService {
+
+    Producto guardarProducto(Producto producto);
+
+    List<Producto> listarTodosProducto();
+
+    boolean eliminarProductoById(Long id);
+
+    Producto buscarProductoById(Long id);
+
+    /**
+     * Busca productos por nombre (contiene, case-insensitive).
+     */
+    List<Producto> buscarPorNombre(String nombre);
+
+}
+>>>>>>> ccfc68d (Init Proyecto-Web-Bembox en feature/rama_alterna)

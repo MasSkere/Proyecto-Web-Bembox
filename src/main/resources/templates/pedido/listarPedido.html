@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Listado de Pedidos</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-6">
+	<div class="max-w-7xl mx-auto">
+		<div class="flex justify-between items-center mb-6">
+			<h1 class="text-3xl font-semibold">Listado de Pedidos</h1>
+			<a href="/pedidos/nuevo"
+				class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
+				Nuevo Pedido </a>
+		</div>
+
+		<div class="bg-white shadow rounded-lg overflow-x-auto">
+			<table class="min-w-full divide-y divide-gray-200">
+				<thead class="bg-gray-50">
+					<tr>
+						<th
+							class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+						<th
+							class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Cliente</th>
+						<th
+							class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha</th>
+						<th
+							class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estado</th>
+						<th
+							class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
+						<th
+							class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Dirección</th>
+						<th
+							class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Acciones</th>
+					</tr>
+				</thead>
+				<tbody class="bg-white divide-y divide-gray-200">
+					<tr th:each="pedido : ${pedidos}">
+						<td class="px-6 py-4 whitespace-nowrap" th:text="${pedido.id}"></td>
+						<td class="px-6 py-4 whitespace-nowrap"
+							th:text="${pedido.cliente.nombres + ' ' + pedido.cliente.apellidos}"></td>
+						<td class="px-6 py-4 whitespace-nowrap"
+							th:text="${#dates.format(pedido.fechaPedido, 'dd/MM/yyyy HH:mm')}"></td>
+						<td class="px-6 py-4 whitespace-nowrap"
+							th:text="${pedido.estado.nombre}"></td>
+						<td class="px-6 py-4 whitespace-nowrap">S/. <span
+							th:text="${pedido.total}"></span></td>
+						<td class="px-6 py-4 whitespace-nowrap"
+							th:text="${pedido.direccionEnvio}"></td>
+						<td class="px-6 py-4 whitespace-nowrap text-center space-x-2">
+							<a th:href="@{|/pedidos/${pedido.id}|}"
+							class="text-indigo-600 hover:text-indigo-900">Ver</a> <a
+							th:href="@{|/pedidos/editar/${pedido.id}|}"
+							class="text-yellow-600 hover:text-yellow-800">Editar</a>
+							<form th:action="@{/pedidos/eliminar/{id}(id=${pedido.id})}"
+								method="post">
+								<button type="submit" class="text-red-600 hover:text-red-800"
+									th:onclick="|return confirm('¿Eliminar pedido #${pedido.id}?');|">
+									Eliminar</button>
+							</form>
+
+						</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(pedidos)}">
+						<td colspan="7" class="px-6 py-4 text-center text-gray-500">
+							No hay pedidos registrados.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

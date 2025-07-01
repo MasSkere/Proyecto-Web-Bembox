@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es"
+      th:replace="admin/layout :: layout 
+                   (pageTitle='Dashboard | Admin', 
+                    pageHeader='Escritorio', 
+                    content=~{this :: dashboard-content})">
+<head></head>
+<body>
+  <div th:fragment="dashboard-content">
+    <!-- Primera fila: Small boxes -->
+    <div class="row">
+      <!-- Productos -->
+      <div class="col-lg-3 col-6">
+        <div class="small-box bg-info">
+          <div class="inner">
+            <h3 th:text="${totalProductos}">0</h3>
+            <p>Productos</p>
+          </div>
+          <div class="icon"><i class="fas fa-box"></i></div>
+          <a th:href="@{/admin/productos}" class="small-box-footer">
+            Más info <i class="fas fa-arrow-circle-right"></i>
+          </a>
+        </div>
+      </div>
+      <!-- Usuarios -->
+      <div class="col-lg-3 col-6">
+        <div class="small-box bg-success">
+          <div class="inner">
+<h3 th:text="${totalUsuarios}">0</h3>
+            <p>Usuarios</p>
+          </div>
+          <div class="icon"><i class="fas fa-users"></i></div>
+          <a th:href="@{/admin/usuarios}" class="small-box-footer">
+            Más info <i class="fas fa-arrow-circle-right"></i>
+          </a>
+        </div>
+      </div>
+      <!-- Pedidos -->
+      <div class="col-lg-3 col-6">
+        <div class="small-box bg-warning">
+          <div class="inner">
+            <h3 th:text="${totalPedidos}">0</h3>
+            <p>Pedidos</p>
+          </div>
+          <div class="icon"><i class="fas fa-shopping-cart"></i></div>
+          <a th:href="@{/admin/pedidos}" class="small-box-footer">
+            Más info <i class="fas fa-arrow-circle-right"></i>
+          </a>
+        </div>
+      </div>
+     
+    </div>
+
+   <!-- Nueva tercera fila: Widgets adicionales -->
+
+<!-- Gráfico de Boletas por Mes -->
+<div class="col-md-6">
+  <div class="card card-info">
+    <div class="card-header">
+      <h3 class="card-title"><i class="fas fa-receipt"></i> Boletas por Mes</h3>
+    </div>
+    <div class="card-body">
+      <canvas id="boletasChart" style="height:230px"></canvas>
+    </div>
+  </div>
+</div>
+    <!-- Cuarta fila: Tabla de últimos pedidos -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card card-info">
+          <div class="card-header">
+            <h3 class="card-title">Últimos Pedidos</h3>
+          </div>
+          <div class="card-body table-responsive p-0">
+            <table class="table table-bordered table-hover text-nowrap">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Cliente</th>
+                  <th>Total</th>
+                  <th>Fecha</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+  <tr th:each="pedido : ${ultimosPedidos}">
+    <td th:text="${pedido.id}">1</td>
+    <!-- Si tu entidad Pedido tiene un objeto Cliente -->
+    <td th:text="${pedido.cliente.nombres}">Nombre Cliente</td>
+    <td th:text="${#numbers.formatDecimal(pedido.total, 1, 'COMMA', 2, 'POINT')}">
+      0.00
+    </td>
+    <!-- Para java.time.LocalDate / LocalDateTime -->
+    <td th:text="${#temporals.format(pedido.fechaPedido, 'dd/MM/yyyy')}">
+      01/01/2025
+    </td>
+    <!-- Si tu Pedido apunta a una entidad Estado -->
+    <td th:text="${pedido.estado.nombre}">Pendiente</td>
+  </tr>
+</tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Incluye al final del layout los scripts de Chart.js -->
+    <div th:remove="tag">
+    <!-- Carga de Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script th:inline="javascript">
+  /*<![CDATA[*/
+    var labels = /*[[${boletasLabels}]]*/ [];
+    var data   = /*[[${boletasData}]]*/ [];
+
+    var ctx = document.getElementById('boletasChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Boletas',
+          data: data,
+          backgroundColor: 'rgba(60,141,188,0.9)',
+          borderColor:     'rgba(60,141,188,0.8)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: { y: { beginAtZero: true }}
+      }
+    });
+  /*]]>*/
+</script>
+
+    </div>
+  </div>
+</body>
+</html>

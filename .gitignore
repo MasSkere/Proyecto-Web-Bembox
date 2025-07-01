@@ -31,4 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+<<<<<<< HEAD
 /.metadata/
+=======
+>>>>>>> ccfc68d (Init Proyecto-Web-Bembox en feature/rama_alterna)

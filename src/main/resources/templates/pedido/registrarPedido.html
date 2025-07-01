@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registrar Pedido</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-6">
+  <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-lg">
+    <h1 class="text-2xl font-semibold mb-6 text-center">Registrar Nuevo Pedido</h1>
+    <form th:action="@{/pedidos}" th:object="${pedido}" method="post" class="space-y-5">
+      <!-- Cliente -->
+      <div>
+        <label for="cliente" class="block text-sm font-medium text-gray-700">Cliente</label>
+        <select id="cliente" th:field="*{cliente.id}" required
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-200 focus:border-indigo-500">
+          <option value="">-- Seleccione un cliente --</option>
+          <option th:each="c : ${clientes}"
+                  th:value="${c.id}"
+                  th:text="${c.nombres + ' ' + c.apellidos}"></option>
+        </select>
+      </div>
+      <!-- Dirección de envío -->
+      <div>
+        <label for="direccionEnvio" class="block text-sm font-medium text-gray-700">Dirección de Envío</label>
+        <input type="text" id="direccionEnvio" th:field="*{direccionEnvio}" required
+               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-200 focus:border-indigo-500" />
+      </div>
+      <!-- Estado -->
+      <div>
+        <label for="estado" class="block text-sm font-medium text-gray-700">Estado Inicial</label>
+        <select id="estado" th:field="*{estado.id}" required
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-200 focus:border-indigo-500">
+          <option value="">-- Seleccione un estado --</option>
+          <option th:each="e : ${estados}"
+                  th:value="${e.id}"
+                  th:text="${e.nombre}"></option>
+        </select>
+      </div>
+      <!-- Total -->
+      <div>
+        <label for="total" class="block text-sm font-medium text-gray-700">Total S/.</label>
+        <input type="number" step="0.01" min="0" id="total" th:field="*{total}" required
+               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-200 focus:border-indigo-500" />
+      </div>
+      <button type="submit"
+              class="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition">
+        Registrar Pedido
+      </button>
+    </form>
+    <div th:if="${#fields.hasErrors()}" class="mt-6 bg-red-100 text-red-700 p-4 rounded-md">
+      <ul>
+        <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

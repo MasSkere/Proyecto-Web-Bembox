@@ -53,8 +53,21 @@
     <groupId>org.projectlombok</groupId>
     <artifactId>lombok</artifactId>
     <version>1.18.38</version>
+<<<<<<< HEAD
 </dependency>
 
+=======
+    
+    
+</dependency>
+
+     <dependency>
+    <groupId>org.thymeleaf.extras</groupId>
+    <artifactId>thymeleaf-extras-springsecurity6</artifactId>
+     </dependency>
+
+
+>>>>>>> ccfc68d (Init Proyecto-Web-Bembox en feature/rama_alterna)
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
