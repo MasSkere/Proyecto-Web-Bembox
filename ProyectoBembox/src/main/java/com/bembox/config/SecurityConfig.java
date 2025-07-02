@@ -22,29 +22,34 @@ public class SecurityConfig {
     
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http,
-                                    UserDetailsServiceImpl uds) throws Exception {
-      return http
-        .csrf(csrf -> csrf.disable())
-        .authorizeHttpRequests(auth -> auth
-          .requestMatchers("/", "/login", "/css/**", "/js/**").permitAll()
-          .requestMatchers("/admin/**").hasAuthority("Administrador")
-          .anyRequest().authenticated()
-        )
-        .formLogin(form -> form
-          .loginPage("/login")
-          .defaultSuccessUrl("/admin/dashboard", true)
-          .permitAll()
-        )
-        .logout(logout -> logout
-          .logoutSuccessUrl("/login?logout")
-          .permitAll()
-        )
-        .exceptionHandling(ex -> ex
-          .accessDeniedPage("/error/403")
-        )
-        .userDetailsService(uds)
-        .build();
-    }
+
+                                     UserDetailsServiceImpl userDetailsService,
+                                     LoginSuccessHandler loginSuccessHandler) throws Exception {
+
+        return http
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                    .requestMatchers("/", "/carrito/**", "/css/**", "/js/**", "/img/**",
+                                     "/promociones", "/seguimiento", "/login", "/nosotros").permitAll()
+                    .requestMatchers("/admin/**").hasAuthority("Administrador")
+                    .requestMatchers("/cliente/**").hasAuthority("Cliente")
+                    .anyRequest().authenticated()
+                )
+                .formLogin(form -> form
+                    .loginPage("/login")
+                    .successHandler(loginSuccessHandler)
+                    .permitAll()
+                )
+                .logout(logout -> logout
+                    .logoutSuccessUrl("/")
+                    .permitAll()
+                )
+                .exceptionHandling(ex -> ex
+                    .accessDeniedPage("/error/403")
+                )
+                .userDetailsService(userDetailsService)
+                .build();
+
 
 
     @Bean

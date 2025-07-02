@@ -4,41 +4,49 @@ import java.math.BigDecimal;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
+
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
-@Getter
 @Entity
+@Getter
+@Setter
 @Table(name = "detalle_boleta")
 public class DetalleBoleta {
+	
+		@Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	    @Column(name = "detalle_boleta_id")
+	    private Long Id;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "detalle_boleta_id")
-    private Long id;
+	    @ManyToOne
+	    @JoinColumn(name = "boleta_id")
+	    private Boleta boleta;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "boleta_id", nullable = false)
-    private Boleta boleta;
+	    @ManyToOne
+	    @JoinColumn(name = "producto_id")
+	    private Producto producto;
+	    
+	    @Column(name="cantidad")
+	    private int cantidad;
+	    
+	    @Column(name="precio_unitario")
+	    private BigDecimal precioUnitario;
+	    
+	    @Transient
+	    public BigDecimal getSubtotal() {
+	        if (precioUnitario == null || cantidad == 0) return BigDecimal.ZERO;
+	        return precioUnitario.multiply(BigDecimal.valueOf(cantidad));
+	    }
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "producto_id", nullable = false)
-    private Producto producto;
-
-    @Column(name = "cantidad", nullable = false)
-    private Integer cantidad;
-
-    @Column(name = "precio_unitario", nullable = false, precision = 10, scale = 2)
-    private BigDecimal precioUnitario;
-
-    // getters y setters
 }
+
+

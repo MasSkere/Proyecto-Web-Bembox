@@ -1,47 +1,64 @@
 package com.bembox.ServiceImpl;
 
-import com.bembox.entity.Boleta;
-import com.bembox.repository.BoletaRepository;
-import com.bembox.service.BoletaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.bembox.entity.Boleta;
+import com.bembox.repository.BoletaRepository;
+import com.bembox.service.BoletaService;
 
 @Service
-public class BoletaServiceImpl implements BoletaService {
+public class BoletaServiceImpl implements BoletaService{
+	
+	@Autowired
+	BoletaRepository boletaRepository;
 
-    private final BoletaRepository boletaRepository;
+	@Override
+	public Boleta guardarBoleta(Boleta boleta) {
+		// TODO Auto-generated method stub
+		return boletaRepository.save(boleta);
+	}
 
-    @Autowired
-    public BoletaServiceImpl(BoletaRepository boletaRepository) {
-        this.boletaRepository = boletaRepository;
-    }
+	@Override
+	public Boleta obtenerPorId(Long id) {
+		// TODO Auto-generated method stub
+		return boletaRepository.findById(id).get();
+	}
 
-    @Override
-    public List<Boleta> listarTodasBoletas() {
-        return boletaRepository.findAll();
-    }
+	@Override
+	public Boleta obtenerPorSerie(String serie) {
+		
+		return boletaRepository.findByNumeroSerie(serie);		
+	}
 
-    @Override
-    public Optional<Boleta> obtenerBoletaPorId(Long id) {
-        return boletaRepository.findById(id);
-    }
+	@Override
+	public String generarNumeroBoleta() {
+		// TODO Auto-generated method stub
+		 int anioActual = java.time.Year.now().getValue();
+		    String prefijo = "B" + anioActual;
 
-    @Override
-    public Boleta guardarBoleta(Boleta boleta) {
-        return boletaRepository.save(boleta);
-    }
+		    Boleta ultimaBoleta = boletaRepository.buscarUltimaBoletaPorPrefijo(prefijo);
+		    
+		    int numeroCorrelativo = 1;
+		    if (ultimaBoleta != null) {
+		        String[] partes = ultimaBoleta.getNumeroSerie().split("-");
+		        if (partes.length == 2) {
+		            try {
+		                numeroCorrelativo = Integer.parseInt(partes[1]) + 1;
+		            } catch (NumberFormatException e) {
+		                numeroCorrelativo = 1;
+		            }
+		        }
+		    }
 
-    @Override
-    public void eliminarBoleta(Long id) {
-        boletaRepository.deleteById(id);
-    }
+		    return String.format("%s-%06d", prefijo, numeroCorrelativo);
+	}
 
-    @Override
-    public List<Boleta> buscarPorNumeroSerie(String numeroSerie) {
-        // Llama al método definido en el repositorio
-        return boletaRepository.findByNumeroSerieContainingIgnoreCase(numeroSerie);
-    }
+	@Override
+	public Boleta obtenerBoletaConDetalles(Long id) {
+		// TODO Auto-generated method stub
+		return boletaRepository.obtenerBoletaConDetalles(id);
+
+	}
+
 }

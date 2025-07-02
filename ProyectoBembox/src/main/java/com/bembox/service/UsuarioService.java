@@ -16,4 +16,6 @@ public interface UsuarioService {
     Optional<Usuario> findByNombreUsuario(String username);
 
     Long contarUsuariosPorRol(String tipoRol);
+    
+    Usuario buscarPorNombreUsuario(String nombreUsuario);
 }

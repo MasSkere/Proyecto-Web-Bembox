@@ -1,22 +1,20 @@
 package com.bembox.service;
 
+
+
 import com.bembox.entity.Boleta;
-import java.util.List;
-import java.util.Optional;
+
 
 public interface BoletaService {
-    // Listar todas las boletas
-    List<Boleta> listarTodasBoletas();
+	
+	Boleta guardarBoleta(Boleta boleta);
+	
+	Boleta obtenerPorId(Long id);
+	
+	Boleta obtenerPorSerie(String serie);
+	
+	String generarNumeroBoleta();
+	
+	Boleta obtenerBoletaConDetalles(Long id);
 
-    // Obtener una boleta por ID
-    Optional<Boleta> obtenerBoletaPorId(Long id);
-
-    // Guardar o actualizar una boleta
-    Boleta guardarBoleta(Boleta boleta);
-
-    // Eliminar una boleta por ID
-    void eliminarBoleta(Long id);
-
-    // Buscar boletas por número de serie
-    List<Boleta> buscarPorNumeroSerie(String numeroSerie);
 }

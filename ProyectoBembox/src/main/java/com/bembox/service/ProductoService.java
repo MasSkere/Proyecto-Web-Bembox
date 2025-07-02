@@ -13,10 +13,9 @@ public interface ProductoService {
     boolean eliminarProductoById(Long id);
 
     Producto buscarProductoById(Long id);
-
-    /**
-     * Busca productos por nombre (contiene, case-insensitive).
-     */
+	 
+	 List<Producto> listarProductosRecomendados();
+	 
     List<Producto> buscarPorNombre(String nombre);
 
 }
