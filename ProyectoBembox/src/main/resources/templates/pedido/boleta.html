@@ -1,54 +1,103 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Boleta de Compra</title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <meta charset="UTF-8">
+  <title>Boleta de Compra</title>
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- DataTables CSS -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"
+  />
 </head>
-<body class="container mt-5">
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
 
-    <div class="card shadow p-4">
-        <h2 class="mb-4 text-center">Boleta de Compra</h2>
+  <div class="max-w-4xl w-full">
+    <div class="bg-white shadow-lg rounded-lg p-8">
+      <h2 class="text-3xl font-semibold text-center mb-6">Boleta de Compra</h2>
 
-        <div class="mb-3">
-            <strong>Número de Boleta:</strong> <span th:text="${boleta.numeroSerie}"></span><br>
-            <strong>Fecha de Emisión:</strong> <span th:text="${boleta.fecha_emision}"></span><br>
-            <strong>Cliente:</strong> <span th:text="${pedido.cliente.nombres + ' ' + pedido.cliente.apellidos}"></span><br>
-            <strong>Dirección de Envío:</strong> <span th:text="${pedido.direccionEnvio}"></span>
-        </div>
+      <div class="mb-6 space-y-2 text-gray-700">
+        <p><strong>Número de Boleta:</strong>
+          <span th:text="${boleta.numeroSerie}"></span>
+        </p>
+        <p><strong>Fecha de Emisión:</strong>
+          <span th:text="${boleta.fecha_emision}"></span>
+        </p>
+        <p><strong>Cliente:</strong>
+          <span th:text="${pedido.cliente.nombres + ' ' + pedido.cliente.apellidos}"></span>
+        </p>
+        <p><strong>Dirección de Envío:</strong>
+          <span th:text="${pedido.direccionEnvio}"></span>
+        </p>
+      </div>
 
-        <table class="table table-bordered mt-4">
-            <thead class="table-light">
-                <tr>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Precio Unitario</th>
-                    <th>Subtotal</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="detalle : ${boleta.detalles}">
-                    <td th:text="${detalle.producto.nombre}"></td>
-                    <td th:text="${detalle.cantidad}"></td>
-					<td th:text="${detalle.precioUnitario}"></td>					
-					<td th:text="${detalle.subtotal}"></td>
+      <table
+        id="detallesTable"
+        class="stripe hover w-full text-gray-700"
+        style="width:100%"
+      >
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 py-2">Producto</th>
+            <th class="px-4 py-2">Cantidad</th>
+            <th class="px-4 py-2">Precio Unitario</th>
+            <th class="px-4 py-2">Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            th:each="detalle : ${boleta.detalles}"
+            class="bg-white odd:bg-gray-50"
+          >
+            <td class="px-4 py-2" th:text="${detalle.producto.nombre}"></td>
+            <td class="px-4 py-2" th:text="${detalle.cantidad}"></td>
+            <td class="px-4 py-2" th:text="${detalle.precioUnitario}"></td>
+            <td class="px-4 py-2" th:text="${detalle.subtotal}"></td>
+          </tr>
+        </tbody>
+      </table>
 
-                </tr>
-				
-				
-            </tbody>
-        </table>
+      <div class="text-right mt-4">
+        <h4 class="text-xl font-bold">
+          Total: S/ <span th:text="${boleta.montoTotal}"></span>
+        </h4>
+      </div>
 
-        <div class="text-end">
-            <h4>Total: S/ <span th:text="${boleta.montoTotal}"></span></h4>
-        </div>
+      <div class="flex justify-center mt-6 space-x-4">
+        <a
+          th:href="@{'/pedido/pdf/' + ${boleta.id}}"
+          target="_blank"
+          class="px-4 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition"
+        >
+          Descargar comprobante PDF
+        </a>
+        <a
+          th:href="@{/}"
+          class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition"
+        >
+          Volver al inicio
+        </a>
+      </div>
 
-        <div class="text-center mt-4">
-            <a th:href="@{'/pedido/pdf/' + ${boleta.id}}" class="btn btn-outline-primary" target="_blank">
-                Descargar comprobante PDF
-            </a>
-            <a th:href="@{/}" class="btn btn-secondary ms-2">Volver al inicio</a>
-        </div>
     </div>
+  </div>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- DataTables JS -->
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#detallesTable').DataTable({
+        paging: true,
+        searching: true,
+        info: false,
+        // Para idioma español, descomenta la línea siguiente:
+        // language: { url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json' }
+      });
+    });
+  </script>
 
 </body>
 </html>
