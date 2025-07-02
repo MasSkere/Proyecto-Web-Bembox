@@ -22,6 +22,7 @@ public class SecurityConfig {
     
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http,
+
                                      UserDetailsServiceImpl userDetailsService,
                                      LoginSuccessHandler loginSuccessHandler) throws Exception {
 
@@ -48,11 +49,14 @@ public class SecurityConfig {
                 )
                 .userDetailsService(userDetailsService)
                 .build();
-    }
+
 
 
     @Bean
      AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
+    
+   
+
 }

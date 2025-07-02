@@ -1,6 +1,7 @@
 package com.bembox.service;
 
 
+
 import com.bembox.entity.Boleta;
 
 
@@ -15,6 +16,5 @@ public interface BoletaService {
 	String generarNumeroBoleta();
 	
 	Boleta obtenerBoletaConDetalles(Long id);
-
 
 }

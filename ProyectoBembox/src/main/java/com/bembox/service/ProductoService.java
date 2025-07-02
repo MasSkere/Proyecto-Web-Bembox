@@ -1,21 +1,21 @@
 package com.bembox.service;
 
-import java.util.List;
-
 import com.bembox.entity.Producto;
 
+import java.util.List;
+
 public interface ProductoService {
-	
-	Producto guardarProducto(Producto producto);
 
-	 List<Producto> listarTodosProducto();
+    Producto guardarProducto(Producto producto);
 
-	 boolean eliminarProductoById(Long id);
-	
-	 Producto buscarProductoById(Long id);
+    List<Producto> listarTodosProducto();
+
+    boolean eliminarProductoById(Long id);
+
+    Producto buscarProductoById(Long id);
 	 
 	 List<Producto> listarProductosRecomendados();
 	 
-	 
+    List<Producto> buscarPorNombre(String nombre);
 
 }

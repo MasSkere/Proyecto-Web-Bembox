@@ -1,9 +1,69 @@
+<!-- src/main/resources/templates/admin/dashboard.html -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Panel Admin</title>
-</head>
-<body>
-    <h1>Bienvenido al panel de administrador</h1>
-</body>
+<html xmlns:th="http://www.thymeleaf.org" lang="es"
+      th:replace="~{admin/layout :: layout(
+                      'Dashboard | Admin',
+                      'Escritorio',
+                      ~{this :: content}
+                    )}">
+  <!-- Definimos únicamente el fragmento content -->
+  <div th:fragment="content">
+    <div class="row">
+      <!-- Widget: Total Productos -->
+      <div class="col-lg-3 col-6">
+        <div class="small-box bg-info">
+          <div class="inner">
+            <h3 th:text="${totalProductos}">0</h3>
+            <p>Productos</p>
+          </div>
+          <div class="icon"><i class="fas fa-box"></i></div>
+          <a th:href="@{/admin/productos}" class="small-box-footer">
+            Más info <i class="fas fa-arrow-circle-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Widget: Total Clientes -->
+      <div class="col-lg-3 col-6">
+        <div class="small-box bg-success">
+          <div class="inner">
+            <h3 th:text="${totalClientes}">0</h3>
+            <p>Clientes</p>
+          </div>
+          <div class="icon"><i class="fas fa-users"></i></div>
+          <a th:href="@{/admin/clientes}" class="small-box-footer">
+            Más info <i class="fas fa-arrow-circle-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Widget: Total Pedidos -->
+      <div class="col-lg-3 col-6">
+        <div class="small-box bg-warning">
+          <div class="inner">
+            <h3 th:text="${totalPedidos}">0</h3>
+            <p>Pedidos</p>
+          </div>
+          <div class="icon"><i class="fas fa-shopping-cart"></i></div>
+          <a th:href="@{/admin/pedidos}" class="small-box-footer">
+            Más info <i class="fas fa-arrow-circle-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Widget: Total Categorías -->
+      <div class="col-lg-3 col-6">
+        <div class="small-box bg-danger">
+          <div class="inner">
+            <h3 th:text="${totalCategorias}">0</h3>
+            <p>Categorías</p>
+          </div>
+          <div class="icon"><i class="fas fa-tags"></i></div>
+          <a th:href="@{/admin/categorias}" class="small-box-footer">
+            Más info <i class="fas fa-arrow-circle-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </html>

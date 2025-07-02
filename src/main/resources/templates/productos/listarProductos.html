@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Listado de Productos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/lucide.min.js"></script>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+
+  <!-- HEADER -->
+  <header th:insert="fragments/header :: header"/>
+
+  <!-- MAIN -->
+  <main class="container mx-auto flex-grow p-6">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-3xl font-semibold text-gray-800">Productos Disponibles</h1>
+      <a th:href="@{/productos/nuevo}"
+         class="bg-blue-800 text-white px-4 py-2 rounded hover:bg-blue-700 flex items-center">
+        <span data-lucide="plus-circle" class="w-5 h-5 mr-2"></span> Nuevo Producto
+      </a>
+    </div>
+    <div class="overflow-x-auto bg-white shadow rounded-lg">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nombre</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Categoría</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Precio</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Stock</th>
+            <th class="px-6 py-3"></th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          <tr th:each="prod : ${productos}" class="hover:bg-blue-50">
+            <td class="px-6 py-4 text-sm text-gray-700" th:text="${prod.id}">1</td>
+            <td class="px-6 py-4 text-sm text-gray-700" th:text="${prod.nombre}">Hamburguesa</td>
+            <td class="px-6 py-4 text-sm text-gray-700" th:text="${prod.categoria.nombre}">Clásico</td>
+            <td class="px-6 py-4 text-sm text-gray-700" th:text="'S/ ' + ${prod.precio}">S/ 15.00</td>
+            <td class="px-6 py-4 text-sm text-gray-700" th:text="${prod.stock}">50</td>
+            <td class="px-6 py-4 text-right text-sm flex space-x-2 justify-end">
+              <a th:href="@{'/productos/editar/' + ${prod.id}}"
+                 class="text-indigo-600 hover:text-indigo-900"
+                 title="Editar">
+                <span data-lucide="edit" class="w-5 h-5"></span>
+              </a>
+              <form th:action="@{'/productos/eliminar/' + ${prod.id}}"
+                    method="post" class="inline">
+                <input type="hidden" name="_method" value="delete"/>
+                <button type="submit"
+                        class="text-red-600 hover:text-red-800"
+                        onclick="return confirm('¿Eliminar producto #' + [[${prod.id}]] + '?');"
+                        title="Eliminar">
+                  <span data-lucide="trash-2" class="w-5 h-5"></span>
+                </button>
+              </form>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer th:insert="fragments/footer :: footer"/>
+
+  <script>lucide.createIcons()</script>
+</body>
+</html>

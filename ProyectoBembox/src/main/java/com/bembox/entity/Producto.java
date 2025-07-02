@@ -10,14 +10,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+
 import lombok.Getter;
 import lombok.Setter;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
 @Entity
-@Table(name="productos")
+@Table(name = "productos")
 public class Producto {
+
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,8 +50,6 @@ public class Producto {
 	@Column(name="imagen_url")
 	private String imagenUrl;
 
-	public Producto() {
-	}
 
 	public Producto(String nombre, String descripcion, BigDecimal precio, int stock, boolean recomendado,
 			Categoria categoria, String imagenUrl) {
@@ -74,13 +75,4 @@ public class Producto {
 	}
 
 	
-	
-
-
-	
-	
-	
-	
-	
-
 }

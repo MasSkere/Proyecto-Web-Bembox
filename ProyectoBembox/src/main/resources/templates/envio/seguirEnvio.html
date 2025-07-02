@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sigue tu pedido</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+        <h1 class="text-2xl font-semibold mb-6 text-center">Sigue tu pedido</h1>
+
+        <!-- Formulario de búsqueda -->
+        <form th:action="@{/seguimiento}" method="get" class="space-y-4">
+            <div>
+                <label for="pedidoId" class="block text-sm font-medium text-gray-700">ID de Pedido</label>
+                <input type="number" name="id" id="pedidoId" required
+                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-200 focus:border-indigo-500"/>
+            </div>
+            <button type="submit"
+                    class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition">Buscar</button>
+        </form>
+
+        <!-- Error si no existe el pedido -->
+        <div th:if="${error != null}" class="mt-8 bg-red-100 text-red-700 p-4 rounded-md">
+            <p th:text="${error}"></p>
+        </div>
+
+        <!-- Detalles del pedido -->
+        <div th:if="${pedido != null}" class="mt-8 space-y-6">
+            <!-- Barra de progreso -->
+            <div>
+                <p class="font-medium mb-2">Progreso del pedido:</p>
+                <div class="w-full bg-gray-200 rounded-full h-4">
+                    <div class="h-4 rounded-full bg-indigo-600"
+                         th:style="'width:' + 
+                           (${pedido.estado.nombre} == 'Pendiente' ? 25 :
+                            ${pedido.estado.nombre} == 'Procesando' ? 50 :
+                            ${pedido.estado.nombre} == 'Enviado' ? 75 :
+                            ${pedido.estado.nombre} == 'Entregado' ? 100 : 0)
+                           + '%';">
+                    </div>
+                </div>
+                <p class="text-sm text-gray-600 mt-1" th:text="${pedido.estado.nombre}"></p>
+            </div>
+
+            <!-- Información del pedido -->
+            <div class="bg-gray-50 p-4 rounded-md">
+                <h2 class="text-xl font-medium mb-2">Detalles del Pedido #<span th:text="${pedido.id}"></span></h2>
+                <p><strong>Fecha de Pedido:</strong> <span th:text="${#dates.format(pedido.fechaPedido, 'dd/MM/yyyy HH:mm')}"></span></p>
+                <p><strong>Total:</strong> S/. <span th:text="${pedido.total}"></span></p>
+                <p><strong>Dirección de Envío:</strong> <span th:text="${pedido.direccionEnvio}"></span></p>
+
+                <h3 class="mt-4 font-semibold">Artículos:</h3>
+                <ul class="list-disc list-inside">
+                    <li th:each="detalle : ${pedido.detalles}">
+                        <span th:text="${detalle.producto.nombre}"></span>
+                        &mdash; Cantidad: <span th:text="${detalle.cantidad}"></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

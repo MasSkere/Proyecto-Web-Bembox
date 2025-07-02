@@ -13,6 +13,4 @@ public interface PedidoService {
 	
 	List<Pedido> listarPorClienteId(Long clienteId);
 	
-
-
 }

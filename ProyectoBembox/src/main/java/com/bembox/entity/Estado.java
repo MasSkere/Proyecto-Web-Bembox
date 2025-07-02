@@ -1,5 +1,6 @@
 package com.bembox.entity;
 
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,8 +29,6 @@ public class Estado {
 		Id = id;
 		this.nombre = nombre;
 	}
-    
-	
-	
+    	
     
 }

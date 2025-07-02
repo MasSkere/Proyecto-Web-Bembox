@@ -1,5 +1,6 @@
 package com.bembox.repository;
 
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,6 +19,5 @@ public interface BoletaRepository extends JpaRepository<Boleta, Long>{
 
 	@Query("SELECT b FROM Boleta b JOIN FETCH b.detalles WHERE b.id = :id")
 	Boleta obtenerBoletaConDetalles(@Param("id") Long id);
-
 
 }

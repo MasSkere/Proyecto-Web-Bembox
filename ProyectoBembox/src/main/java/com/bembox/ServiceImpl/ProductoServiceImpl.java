@@ -1,14 +1,12 @@
 package com.bembox.ServiceImpl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.bembox.entity.Producto;
 import com.bembox.repository.ProductoRepository;
 import com.bembox.service.ProductoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 @Service
 public class ProductoServiceImpl implements ProductoService{
@@ -49,4 +47,4 @@ public class ProductoServiceImpl implements ProductoService{
 	    return productoRepository.findByRecomendadoTrue();
 	}
 
-}
+

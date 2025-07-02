@@ -60,6 +60,5 @@ public class BoletaServiceImpl implements BoletaService{
 		return boletaRepository.obtenerBoletaConDetalles(id);
 
 	}
-	
 
 }
